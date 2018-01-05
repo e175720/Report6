@@ -16,8 +16,9 @@ public class Main {
         System.out.println("どのゲームで遊びますか？\n1：ポーカー");
         if (selectgame==1){
             Poker poker = new Poker(coin);
-            poker.soloPlay();
             betCoin(50);
+            poker.game();
+
         }
 
     }

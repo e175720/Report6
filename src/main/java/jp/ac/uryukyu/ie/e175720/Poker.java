@@ -36,6 +36,6 @@ public class Poker {
     }
 
     public boolean sameDraw(int[] same_card){
-        
+
     }
 }
