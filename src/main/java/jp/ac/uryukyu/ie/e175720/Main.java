@@ -7,20 +7,14 @@ public class Main {
     public static void main(String[] args) {
         coin = 1000;
         System.out.println("カジノへようこそ\n所持チップ：" + coin);
-    }
-
-    //ゲームの選択。
-    public void selectGame(){
         int selectgame = 1;
         //selectgameはあとでユーザー入力ができるようにする。
         System.out.println("どのゲームで遊びますか？\n1：ポーカー");
         if (selectgame==1){
             Poker poker = new Poker(coin);
-            betCoin(50);
             poker.game();
 
         }
-
     }
 
     public int getCoin(){
