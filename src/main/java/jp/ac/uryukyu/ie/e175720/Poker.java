@@ -1,9 +1,12 @@
 package jp.ac.uryukyu.ie.e175720;
 import java.math.*;
+import java.util.List;
+import java.util.ArrayList;
+import java.util.Collections;
 
 public class Poker {
     private int coin;
-    private String[] hands;
+    private List<Card> hands = new ArrayList<Card>();
     private String[] same;
     private boolean samej = false;
     private String change;
@@ -14,77 +17,72 @@ public class Poker {
 
     public void game(){
         System.out.println("カードを配ります。");
-        hands = new String[5];
-        same = new String[10];
-        for(int i=0; i<5; i++){
-            hands[i] = drawCard();
-            same[i] = hands[i];
-            if (i>=1){
-                for(int j=0;j<i;j++){
-                    if(same[j]==hands[i]){
-                        samej = true;
-                    }
-                }
-                if(samej){
-                    i = i-1;
-                    samej = false;
-                }
+        List<Card> deck = deckMake();
+        Collections.shuffle(deck);
+        for(int k=1;k<=5;k++){
+            hands.add(deck.get(0));
+            deck.remove(0);
+            Card look = hands.get(k-1);
+            switch (look.getNumber()){
+                case 0:
+                    System.out.println(k +":"+ look.getMark());
+                    break;
+                default:
+                    System.out.println(k +":"+ look.getMark()+look.getNumber());
+                    break;
             }
+
         }
-        for(int look = 0;look<5; look++){
-            System.out.println(look+1 + ":" + hands[look]);
-        }
+
         System.out.println("交換するカードを記入してください。例：1,3  2,4,5");
         //changeはあとでユーザーが入力できるようにする。
-        change = "1,2";
-        String[] num = change.split(",",0);
-        for(int k=0;k<num.length;k++){
-            hands[k] = drawCard();
-            for(int l=0;l<5+k;l++){
-                if(same[l]==hands[k]){
-                    samej = true;
-                }
-            }
-            if(samej){
-                k = k-1;
-                samej = false;
-            }
+        String change = "4,5";
+        String[] changen = change.split(",",0);
+        int[] num = new int[changen.length];
+        for(int l=0;l<num.length;l++){
+            num[l] = Integer.parseInt(changen[l])-1;
+        }
+        for(int m=0;m<num.length;m++){
+            hands.set(num[m],deck.get(0));
+            deck.remove(0);
+        }
 
+
+        for(int g=1;g<=5;g++){
+            Card look = hands.get(g-1);
+            switch (look.getNumber()){
+                case 0:
+                    System.out.println(g +":"+ look.getMark());
+                    break;
+                default:
+                    System.out.println(g +":"+ look.getMark()+look.getNumber());
+                    break;
+            }
         }
-        for(int look = 0;look<5; look++) {
-            System.out.println(look + 1 + ":" + hands[look]);
-        }
-        result(hands);
+
     }
 
-    public String drawCard(){
-        String[] card = {"♡A","♡2","♡3","♡4","♡5","♡6","♡7","♡8","♡9","♡10","♡J","♡Q","♡K",
-                         "♧A","♧2","♧3","♧4","♧5","♧6","♧7","♧8","♧9","♧10","♧J","♧Q","♧K",
-                         "♤A","♤2","♤3","♤4","♤5","♤6","♤7","♤8","♤9","♤10","♤J","♤Q","♤K",
-                         "♢A","♢2","♢3","♢4","♢5","♢6","♢7","♢8","♢9","♢10","♢J","♢Q","♢K",
-                         "JOKER"};
-        int select = (int)(Math.random() * 53);
-        String got = card[select];
-        return got;
-    }
-
-    public void result(String[] take){
-
-        String m1;
-        String n1;
-        for(int m=0;m<5;m++){
-            String[] takes = take[m].split("", 0);
-            if(m==0){
-                m1 = takes[0];
-                n1 = takes[1];
+    public List<Card> deckMake(){
+        List<Card> card = new ArrayList<Card>();
+        for(int i=1;i<=4;i++){
+            String sym;
+            if(i==1){
+                sym = "♡";
+            }else if(i==2){
+                sym = "♧";
+            }else if(i==3){
+                sym = "♤";
             }else{
-                if(m1==takes[0]){
-
-                }
+                sym = "♢";
+            }
+            for(int j=1;j<=13;j++){
+                Card a = new Card(j,sym);
+                card.add(a);
             }
         }
-
-
-
+        card.add(new Card(0,"joker"));
+        return card;
     }
+
+
 }
